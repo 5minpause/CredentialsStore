@@ -21,6 +21,8 @@
 		DD801C1D16A0B4EA00B0F528 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD801BFE16A0B4EA00B0F528 /* Foundation.framework */; };
 		DD801C2516A0B4EA00B0F528 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD801C2316A0B4EA00B0F528 /* InfoPlist.strings */; };
 		DD801C2816A0B4EA00B0F528 /* CredentialsStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DD801C2716A0B4EA00B0F528 /* CredentialsStoreTests.m */; };
+		DD801C3316A0B58F00B0F528 /* HFRCredentialsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = DD801C3216A0B58F00B0F528 /* HFRCredentialsStore.m */; };
+		DD801C3516A0BAC200B0F528 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD801C3416A0BAC200B0F528 /* Security.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,8 +53,10 @@
 		DD801C1A16A0B4EA00B0F528 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		DD801C2216A0B4EA00B0F528 /* CredentialsStoreTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CredentialsStoreTests-Info.plist"; sourceTree = "<group>"; };
 		DD801C2416A0B4EA00B0F528 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		DD801C2616A0B4EA00B0F528 /* CredentialsStoreTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CredentialsStoreTests.h; sourceTree = "<group>"; };
 		DD801C2716A0B4EA00B0F528 /* CredentialsStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CredentialsStoreTests.m; sourceTree = "<group>"; };
+		DD801C3116A0B58F00B0F528 /* HFRCredentialsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HFRCredentialsStore.h; sourceTree = "<group>"; };
+		DD801C3216A0B58F00B0F528 /* HFRCredentialsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFRCredentialsStore.m; sourceTree = "<group>"; };
+		DD801C3416A0BAC200B0F528 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD801C3516A0BAC200B0F528 /* Security.framework in Frameworks */,
 				DD801BFD16A0B4EA00B0F528 /* UIKit.framework in Frameworks */,
 				DD801BFF16A0B4EA00B0F528 /* Foundation.framework in Frameworks */,
 				DD801C0116A0B4EA00B0F528 /* CoreGraphics.framework in Frameworks */,
@@ -101,6 +106,7 @@
 		DD801BFB16A0B4EA00B0F528 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DD801C3416A0BAC200B0F528 /* Security.framework */,
 				DD801BFC16A0B4EA00B0F528 /* UIKit.framework */,
 				DD801BFE16A0B4EA00B0F528 /* Foundation.framework */,
 				DD801C0016A0B4EA00B0F528 /* CoreGraphics.framework */,
@@ -115,6 +121,8 @@
 				DD801C0B16A0B4EA00B0F528 /* HFRAppDelegate.h */,
 				DD801C0C16A0B4EA00B0F528 /* HFRAppDelegate.m */,
 				DD801C0316A0B4EA00B0F528 /* Supporting Files */,
+				DD801C3116A0B58F00B0F528 /* HFRCredentialsStore.h */,
+				DD801C3216A0B58F00B0F528 /* HFRCredentialsStore.m */,
 			);
 			path = CredentialsStore;
 			sourceTree = "<group>";
@@ -136,7 +144,6 @@
 		DD801C2016A0B4EA00B0F528 /* CredentialsStoreTests */ = {
 			isa = PBXGroup;
 			children = (
-				DD801C2616A0B4EA00B0F528 /* CredentialsStoreTests.h */,
 				DD801C2716A0B4EA00B0F528 /* CredentialsStoreTests.m */,
 				DD801C2116A0B4EA00B0F528 /* Supporting Files */,
 			);
@@ -264,6 +271,7 @@
 			files = (
 				DD801C0916A0B4EA00B0F528 /* main.m in Sources */,
 				DD801C0D16A0B4EA00B0F528 /* HFRAppDelegate.m in Sources */,
+				DD801C3316A0B58F00B0F528 /* HFRCredentialsStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
