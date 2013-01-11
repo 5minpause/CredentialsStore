@@ -1,0 +1,453 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DD801BFD16A0B4EA00B0F528 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD801BFC16A0B4EA00B0F528 /* UIKit.framework */; };
+		DD801BFF16A0B4EA00B0F528 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD801BFE16A0B4EA00B0F528 /* Foundation.framework */; };
+		DD801C0116A0B4EA00B0F528 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD801C0016A0B4EA00B0F528 /* CoreGraphics.framework */; };
+		DD801C0716A0B4EA00B0F528 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD801C0516A0B4EA00B0F528 /* InfoPlist.strings */; };
+		DD801C0916A0B4EA00B0F528 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD801C0816A0B4EA00B0F528 /* main.m */; };
+		DD801C0D16A0B4EA00B0F528 /* HFRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD801C0C16A0B4EA00B0F528 /* HFRAppDelegate.m */; };
+		DD801C0F16A0B4EA00B0F528 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = DD801C0E16A0B4EA00B0F528 /* Default.png */; };
+		DD801C1116A0B4EA00B0F528 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD801C1016A0B4EA00B0F528 /* Default@2x.png */; };
+		DD801C1316A0B4EA00B0F528 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD801C1216A0B4EA00B0F528 /* Default-568h@2x.png */; };
+		DD801C1B16A0B4EA00B0F528 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD801C1A16A0B4EA00B0F528 /* SenTestingKit.framework */; };
+		DD801C1C16A0B4EA00B0F528 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD801BFC16A0B4EA00B0F528 /* UIKit.framework */; };
+		DD801C1D16A0B4EA00B0F528 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD801BFE16A0B4EA00B0F528 /* Foundation.framework */; };
+		DD801C2516A0B4EA00B0F528 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD801C2316A0B4EA00B0F528 /* InfoPlist.strings */; };
+		DD801C2816A0B4EA00B0F528 /* CredentialsStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DD801C2716A0B4EA00B0F528 /* CredentialsStoreTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DD801C1E16A0B4EA00B0F528 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD801BF116A0B4EA00B0F528 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD801BF816A0B4EA00B0F528;
+			remoteInfo = CredentialsStore;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DD801BF916A0B4EA00B0F528 /* CredentialsStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CredentialsStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD801BFC16A0B4EA00B0F528 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DD801BFE16A0B4EA00B0F528 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DD801C0016A0B4EA00B0F528 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DD801C0416A0B4EA00B0F528 /* CredentialsStore-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CredentialsStore-Info.plist"; sourceTree = "<group>"; };
+		DD801C0616A0B4EA00B0F528 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DD801C0816A0B4EA00B0F528 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DD801C0A16A0B4EA00B0F528 /* CredentialsStore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CredentialsStore-Prefix.pch"; sourceTree = "<group>"; };
+		DD801C0B16A0B4EA00B0F528 /* HFRAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HFRAppDelegate.h; sourceTree = "<group>"; };
+		DD801C0C16A0B4EA00B0F528 /* HFRAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HFRAppDelegate.m; sourceTree = "<group>"; };
+		DD801C0E16A0B4EA00B0F528 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		DD801C1016A0B4EA00B0F528 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		DD801C1216A0B4EA00B0F528 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		DD801C1916A0B4EA00B0F528 /* CredentialsStoreTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CredentialsStoreTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD801C1A16A0B4EA00B0F528 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		DD801C2216A0B4EA00B0F528 /* CredentialsStoreTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CredentialsStoreTests-Info.plist"; sourceTree = "<group>"; };
+		DD801C2416A0B4EA00B0F528 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DD801C2616A0B4EA00B0F528 /* CredentialsStoreTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CredentialsStoreTests.h; sourceTree = "<group>"; };
+		DD801C2716A0B4EA00B0F528 /* CredentialsStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CredentialsStoreTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DD801BF616A0B4EA00B0F528 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD801BFD16A0B4EA00B0F528 /* UIKit.framework in Frameworks */,
+				DD801BFF16A0B4EA00B0F528 /* Foundation.framework in Frameworks */,
+				DD801C0116A0B4EA00B0F528 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD801C1516A0B4EA00B0F528 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD801C1B16A0B4EA00B0F528 /* SenTestingKit.framework in Frameworks */,
+				DD801C1C16A0B4EA00B0F528 /* UIKit.framework in Frameworks */,
+				DD801C1D16A0B4EA00B0F528 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DD801BF016A0B4EA00B0F528 = {
+			isa = PBXGroup;
+			children = (
+				DD801C0216A0B4EA00B0F528 /* CredentialsStore */,
+				DD801C2016A0B4EA00B0F528 /* CredentialsStoreTests */,
+				DD801BFB16A0B4EA00B0F528 /* Frameworks */,
+				DD801BFA16A0B4EA00B0F528 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DD801BFA16A0B4EA00B0F528 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DD801BF916A0B4EA00B0F528 /* CredentialsStore.app */,
+				DD801C1916A0B4EA00B0F528 /* CredentialsStoreTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DD801BFB16A0B4EA00B0F528 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DD801BFC16A0B4EA00B0F528 /* UIKit.framework */,
+				DD801BFE16A0B4EA00B0F528 /* Foundation.framework */,
+				DD801C0016A0B4EA00B0F528 /* CoreGraphics.framework */,
+				DD801C1A16A0B4EA00B0F528 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DD801C0216A0B4EA00B0F528 /* CredentialsStore */ = {
+			isa = PBXGroup;
+			children = (
+				DD801C0B16A0B4EA00B0F528 /* HFRAppDelegate.h */,
+				DD801C0C16A0B4EA00B0F528 /* HFRAppDelegate.m */,
+				DD801C0316A0B4EA00B0F528 /* Supporting Files */,
+			);
+			path = CredentialsStore;
+			sourceTree = "<group>";
+		};
+		DD801C0316A0B4EA00B0F528 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DD801C0416A0B4EA00B0F528 /* CredentialsStore-Info.plist */,
+				DD801C0516A0B4EA00B0F528 /* InfoPlist.strings */,
+				DD801C0816A0B4EA00B0F528 /* main.m */,
+				DD801C0A16A0B4EA00B0F528 /* CredentialsStore-Prefix.pch */,
+				DD801C0E16A0B4EA00B0F528 /* Default.png */,
+				DD801C1016A0B4EA00B0F528 /* Default@2x.png */,
+				DD801C1216A0B4EA00B0F528 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DD801C2016A0B4EA00B0F528 /* CredentialsStoreTests */ = {
+			isa = PBXGroup;
+			children = (
+				DD801C2616A0B4EA00B0F528 /* CredentialsStoreTests.h */,
+				DD801C2716A0B4EA00B0F528 /* CredentialsStoreTests.m */,
+				DD801C2116A0B4EA00B0F528 /* Supporting Files */,
+			);
+			path = CredentialsStoreTests;
+			sourceTree = "<group>";
+		};
+		DD801C2116A0B4EA00B0F528 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DD801C2216A0B4EA00B0F528 /* CredentialsStoreTests-Info.plist */,
+				DD801C2316A0B4EA00B0F528 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DD801BF816A0B4EA00B0F528 /* CredentialsStore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD801C2B16A0B4EA00B0F528 /* Build configuration list for PBXNativeTarget "CredentialsStore" */;
+			buildPhases = (
+				DD801BF516A0B4EA00B0F528 /* Sources */,
+				DD801BF616A0B4EA00B0F528 /* Frameworks */,
+				DD801BF716A0B4EA00B0F528 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CredentialsStore;
+			productName = CredentialsStore;
+			productReference = DD801BF916A0B4EA00B0F528 /* CredentialsStore.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DD801C1816A0B4EA00B0F528 /* CredentialsStoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD801C2E16A0B4EA00B0F528 /* Build configuration list for PBXNativeTarget "CredentialsStoreTests" */;
+			buildPhases = (
+				DD801C1416A0B4EA00B0F528 /* Sources */,
+				DD801C1516A0B4EA00B0F528 /* Frameworks */,
+				DD801C1616A0B4EA00B0F528 /* Resources */,
+				DD801C1716A0B4EA00B0F528 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD801C1F16A0B4EA00B0F528 /* PBXTargetDependency */,
+			);
+			name = CredentialsStoreTests;
+			productName = CredentialsStoreTests;
+			productReference = DD801C1916A0B4EA00B0F528 /* CredentialsStoreTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DD801BF116A0B4EA00B0F528 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = HFR;
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Holger Frohloff";
+			};
+			buildConfigurationList = DD801BF416A0B4EA00B0F528 /* Build configuration list for PBXProject "CredentialsStore" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DD801BF016A0B4EA00B0F528;
+			productRefGroup = DD801BFA16A0B4EA00B0F528 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DD801BF816A0B4EA00B0F528 /* CredentialsStore */,
+				DD801C1816A0B4EA00B0F528 /* CredentialsStoreTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DD801BF716A0B4EA00B0F528 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD801C0716A0B4EA00B0F528 /* InfoPlist.strings in Resources */,
+				DD801C0F16A0B4EA00B0F528 /* Default.png in Resources */,
+				DD801C1116A0B4EA00B0F528 /* Default@2x.png in Resources */,
+				DD801C1316A0B4EA00B0F528 /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD801C1616A0B4EA00B0F528 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD801C2516A0B4EA00B0F528 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DD801C1716A0B4EA00B0F528 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DD801BF516A0B4EA00B0F528 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD801C0916A0B4EA00B0F528 /* main.m in Sources */,
+				DD801C0D16A0B4EA00B0F528 /* HFRAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD801C1416A0B4EA00B0F528 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD801C2816A0B4EA00B0F528 /* CredentialsStoreTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DD801C1F16A0B4EA00B0F528 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD801BF816A0B4EA00B0F528 /* CredentialsStore */;
+			targetProxy = DD801C1E16A0B4EA00B0F528 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DD801C0516A0B4EA00B0F528 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD801C0616A0B4EA00B0F528 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DD801C2316A0B4EA00B0F528 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD801C2416A0B4EA00B0F528 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DD801C2916A0B4EA00B0F528 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_STRICT_ALIASING = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		DD801C2A16A0B4EA00B0F528 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_STRICT_ALIASING = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DD801C2C16A0B4EA00B0F528 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CredentialsStore/CredentialsStore-Prefix.pch";
+				INFOPLIST_FILE = "CredentialsStore/CredentialsStore-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		DD801C2D16A0B4EA00B0F528 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CredentialsStore/CredentialsStore-Prefix.pch";
+				INFOPLIST_FILE = "CredentialsStore/CredentialsStore-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		DD801C2F16A0B4EA00B0F528 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CredentialsStore.app/CredentialsStore";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CredentialsStore/CredentialsStore-Prefix.pch";
+				INFOPLIST_FILE = "CredentialsStoreTests/CredentialsStoreTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		DD801C3016A0B4EA00B0F528 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CredentialsStore.app/CredentialsStore";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CredentialsStore/CredentialsStore-Prefix.pch";
+				INFOPLIST_FILE = "CredentialsStoreTests/CredentialsStoreTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DD801BF416A0B4EA00B0F528 /* Build configuration list for PBXProject "CredentialsStore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD801C2916A0B4EA00B0F528 /* Debug */,
+				DD801C2A16A0B4EA00B0F528 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DD801C2B16A0B4EA00B0F528 /* Build configuration list for PBXNativeTarget "CredentialsStore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD801C2C16A0B4EA00B0F528 /* Debug */,
+				DD801C2D16A0B4EA00B0F528 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		DD801C2E16A0B4EA00B0F528 /* Build configuration list for PBXNativeTarget "CredentialsStoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD801C2F16A0B4EA00B0F528 /* Debug */,
+				DD801C3016A0B4EA00B0F528 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DD801BF116A0B4EA00B0F528 /* Project object */;
+}
