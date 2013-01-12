@@ -7,6 +7,7 @@
 //
 
 #import "../CredentialsStore/HFRCredentialsStore.h"
+#import <Security/Security.h>
 #import <SenTestingKit/SenTestingKit.h>
 
 static NSString *kHFRCredentialsStoreTestsProvider = @"HFRCredentialsStoreTestProvider";
@@ -52,6 +53,23 @@ static NSString *kHFRCredentialsStoreTestsPassword = @"HFRCredentialsStoreTestPa
 
   STAssertTrue(result1, @"First Save successful");
   STAssertTrue(result2, @"Second Save successful");
+}
+
+#pragma mark - Tests
+
+- (void)testDeleteProviders
+{
+  [HFRCredentialsStore savePassword:kHFRCredentialsStoreTestsPassword
+                       withUsername:kHFRCredentialsStoreTestsUsername
+                        forProvider:kHFRCredentialsStoreTestsProvider];
+
+  NSString *savedPassword = [HFRCredentialsStore getPasswordForUsername:kHFRCredentialsStoreTestsUsername atProvider:kHFRCredentialsStoreTestsProvider];
+
+  STAssertEqualObjects(kHFRCredentialsStoreTestsPassword, savedPassword, @"Saved password matches retrieved password.");
+
+  [HFRCredentialsStore deleteEntryForProvider:kHFRCredentialsStoreTestsProvider];
+  NSDictionary *result = [HFRCredentialsStore credentialsForProvider:kHFRCredentialsStoreTestsProvider];
+  STAssertEqualObjects(@{}, result, @"Result is empty after provider was deleted.");
 }
 
 - (void)testListAllProviders
@@ -100,6 +118,47 @@ static NSString *kHFRCredentialsStoreTestsPassword = @"HFRCredentialsStoreTestPa
 
   STAssertTrue(result1, @"First Save successful");
   STAssertFalse(result2, @"Second Save NOT successful");
+}
+
+- (void)testUpdatingViaiCloud
+{
+  // Setup
+  [self cleanCredentialsStore];
+  [HFRCredentialsStore synchronize];
+  NSUbiquitousKeyValueStore* store = [NSUbiquitousKeyValueStore defaultStore];
+  if (store) {
+    [NSNotificationCenter.defaultCenter addObserverForName:NSUbiquitousKeyValueStoreDidChangeExternallyNotification object:store queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+      [HFRCredentialsStore synchronize];
+    }];
+  }
+
+  // No providers after fresh start
+  NSArray *providers = [HFRCredentialsStore listAllProviders];
+  NSArray *compareProviders = @[];
+  STAssertEqualObjects(providers, compareProviders, @"No providers present yet.");
+
+  // Create entry for a provider and sync to iCloud
+  [HFRCredentialsStore savePassword:kHFRCredentialsStoreTestsPassword
+                       withUsername:kHFRCredentialsStoreTestsUsername
+                        forProvider:kHFRCredentialsStoreTestsProvider];
+
+  // Manually deleting entry from HFRCredentialsStore w/o sync to iCloud
+  NSMutableDictionary *query = [@{(__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
+                                 (__bridge id)kSecAttrAccessible : (__bridge id)kSecAttrAccessibleWhenUnlocked} mutableCopy];
+  [query setObject:[kHFRCredentialsStoreTestsProvider dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrService];
+
+  SecItemDelete((__bridge CFDictionaryRef)query);
+
+  // Make sure deletion went through
+  NSArray *providersAfterDelete = [HFRCredentialsStore listAllProviders];
+  NSArray *compareProvidersAfterDelete = @[];
+  STAssertEqualObjects(providersAfterDelete, compareProvidersAfterDelete, @"No providers present anymore.");
+
+  // Sync with iCloud and populate HFRCredentialStore again
+  [HFRCredentialsStore synchronize];
+  NSArray *providersAfterSync = [HFRCredentialsStore listAllProviders];
+  NSArray *compareProvidersAfterSync = @[kHFRCredentialsStoreTestsProvider];
+  STAssertEqualObjects(providersAfterSync, compareProvidersAfterSync, @"Providers present again.");
 }
 
 @end

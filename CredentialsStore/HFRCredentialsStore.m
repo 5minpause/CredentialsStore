@@ -10,16 +10,26 @@
 #import <Security/Security.h>
 @interface HFRCredentialsStore ()
 + (BOOL)isProviderAlreadyPresent:(NSString *)provider;
+
+// iCloud
++ (void)updateKeysFromiCloud:(NSArray *)keysArray;
++ (void)sendDataToiCloud:(NSDictionary *)dictionary forKey:(NSString *)key;
 @end
 
 @implementation HFRCredentialsStore
 
 #pragma mark - Helper
-+ (NSMutableDictionary *)newSearchDictionaryWithUsername:(NSString *)username forProvider:(NSString *)provider {
++ (NSMutableDictionary *)basicDictionary
+{
   NSMutableDictionary *values = [@{(__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                                 (__bridge id)kSecAttrAccount : [username dataUsingEncoding:NSUTF8StringEncoding],
-                                 (__bridge id)kSecAttrService : [provider dataUsingEncoding:NSUTF8StringEncoding],
                                  (__bridge id)kSecAttrAccessible : (__bridge id)kSecAttrAccessibleWhenUnlocked} mutableCopy];
+  return values;
+}
+
++ (NSMutableDictionary *)newSearchDictionaryWithUsername:(NSString *)username forProvider:(NSString *)provider {
+  NSMutableDictionary *values = [self basicDictionary];
+  [values setObject:[username dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccount];
+  [values setObject:[provider dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrService];
   return values;
 }
 
@@ -32,7 +42,7 @@
   } else {
     NSMutableDictionary *values = [self newSearchDictionaryWithUsername:username forProvider:provider];
 
-    /* Retrieve & delte password entry if alread defined */
+    /* Retrieve & delete password entry if already defined */
     if (![[self getPasswordForUsername:username atProvider:provider] isEqualToString:@"nil"]) {
       SecItemDelete((__bridge CFDictionaryRef)values);
     }
@@ -45,7 +55,11 @@
     if (status != noErr) {
       NSError *error = [NSError errorWithDomain:@"de.HFDomain.hf" code:status userInfo:nil];
       NSLog(@"error while saving password: %@", error);
+      return NO;
     }
+
+    // Syncing to iCloud
+    [self sendDataToiCloud:@{@"username" : username, @"password" : password} forKey:provider];
     return YES;
   }
 }
@@ -53,15 +67,15 @@
 #pragma mark - Retrieving
 + (NSArray *)listAllProviders;
 {
-  NSDictionary *query = @{(__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                          (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitAll,
-                          (__bridge id)kSecReturnAttributes : (__bridge id)kCFBooleanTrue,
-                          (__bridge id)kSecAttrAccessible : (__bridge id)kSecAttrAccessibleWhenUnlocked};
+
+  NSMutableDictionary *query = [self basicDictionary];
+  [query setObject:(__bridge id)kSecMatchLimitAll forKey:(__bridge id)kSecMatchLimit];
+  [query setObject:(__bridge id)kCFBooleanTrue forKey:(__bridge id)kSecReturnAttributes];
 
   CFArrayRef resAr = NULL;
   OSStatus status = NULL;
   __block NSMutableArray *returnArray = [@[] mutableCopy];
-  status = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef *)&resAr);
+  status = SecItemCopyMatching((__bridge CFMutableDictionaryRef)query, (CFTypeRef *)&resAr);
   
   if (status == noErr) {
     NSArray *resultsArray = (__bridge_transfer NSArray *)resAr;
@@ -85,11 +99,10 @@
 
 + (BOOL)isProviderAlreadyPresent:(NSString *)provider
 {
-  NSDictionary *query = @{(__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                          (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
-                          (__bridge id)kSecReturnData : (__bridge id)kCFBooleanTrue,
-                          (__bridge id)kSecAttrService : [provider dataUsingEncoding:NSUTF8StringEncoding],
-                          (__bridge id)kSecAttrAccessible : (__bridge id)kSecAttrAccessibleWhenUnlocked};
+  NSMutableDictionary *query = [self basicDictionary];
+  [query setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
+  [query setObject:(__bridge id)kCFBooleanTrue forKey:(__bridge id)kSecReturnData];
+  [query setObject:[provider dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrService];
 
   CFDataRef results = NULL;
   OSStatus status = NULL;
@@ -109,12 +122,11 @@
 + (NSString *)getPasswordForUsername:(NSString *)username atProvider:(NSString *)provider;
 {
   OSStatus status = NULL;
-  NSDictionary *query = @{(__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                          (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
-                          (__bridge id)kSecReturnData : (__bridge id)kCFBooleanTrue,
-                          (__bridge id)kSecAttrAccount : [username dataUsingEncoding:NSUTF8StringEncoding],
-                          (__bridge id)kSecAttrService : [provider dataUsingEncoding:NSUTF8StringEncoding],
-                          (__bridge id)kSecAttrAccessible : (__bridge id)kSecAttrAccessibleWhenUnlocked};
+  NSMutableDictionary *query = [self basicDictionary];
+  [query setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
+  [query setObject:(__bridge id)kCFBooleanTrue forKey:(__bridge id)kSecReturnData];
+  [query setObject:[provider dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrService];
+  [query setObject:[username dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccount];
 
   CFDataRef results = NULL;
   status = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef *)&results);
@@ -137,11 +149,10 @@
 
 + (NSDictionary *)credentialsForProvider:(NSString *)provider;
 {
-  NSDictionary *query = @{(__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                          (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
-                          (__bridge id)kSecReturnAttributes : (__bridge id)kCFBooleanTrue,
-                          (__bridge id)kSecAttrService : [provider dataUsingEncoding:NSUTF8StringEncoding],
-                          (__bridge id)kSecAttrAccessible : (__bridge id)kSecAttrAccessibleWhenUnlocked};
+  NSMutableDictionary *query = [self basicDictionary];
+  [query setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
+  [query setObject:(__bridge id)kCFBooleanTrue forKey:(__bridge id)kSecReturnAttributes];
+  [query setObject:[provider dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrService];
 
   CFDictionaryRef resDic = NULL;
   OSStatus status = NULL;
@@ -172,9 +183,13 @@
 + (BOOL)deleteEntryForProvider:(NSString *)provider
 {
   if ([self isProviderAlreadyPresent:provider]) {
-    NSDictionary *query = @{(__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                            (__bridge id)kSecAttrService : [provider dataUsingEncoding:NSUTF8StringEncoding]};
+    NSMutableDictionary *query = [self basicDictionary];
+    [query setObject:[provider dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrService];
+
     if (SecItemDelete((__bridge CFDictionaryRef)query) == noErr) {
+      NSUbiquitousKeyValueStore* store = [NSUbiquitousKeyValueStore defaultStore];
+      [store removeObjectForKey:provider];
+      [store synchronize];
       return YES;
     } else {
       return NO;
@@ -182,5 +197,32 @@
   } else {
     return NO;
   }
+}
+
+#pragma mark - iCloud
++ (void)updateKeysFromiCloud:(NSArray *)keysArray;
+{
+  NSUbiquitousKeyValueStore* store = [NSUbiquitousKeyValueStore defaultStore];
+  [keysArray enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
+    NSDictionary *credentialsDic = [store valueForKey:key];
+    [self savePassword:[credentialsDic valueForKey:@"password"] withUsername:[credentialsDic valueForKey:@"username"] forProvider:key];
+  }];
+}
+
++ (void)sendDataToiCloud:(NSDictionary *)dictionary forKey:(NSString *)key
+{
+  NSUbiquitousKeyValueStore *store = [NSUbiquitousKeyValueStore defaultStore];
+  if (store) {
+    [store setObject:dictionary forKey:key];
+  }
+  [store synchronize];
+}
+
++ (void)synchronize;
+{
+  NSUbiquitousKeyValueStore* store = [NSUbiquitousKeyValueStore defaultStore];
+  [store synchronize];
+  NSDictionary *dic = [store dictionaryRepresentation];
+  [self updateKeysFromiCloud:[dic allKeys]];
 }
 @end

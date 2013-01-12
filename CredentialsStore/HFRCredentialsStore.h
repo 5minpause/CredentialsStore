@@ -20,4 +20,7 @@
 
 // Delete
 + (BOOL)deleteEntryForProvider:(NSString *)provider;
+
+// iCloud & Sync
++ (void)synchronize;
 @end

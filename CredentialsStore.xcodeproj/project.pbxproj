@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD4FB38D16A2255700829115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD801C3416A0BAC200B0F528 /* Security.framework */; };
 		DD801BFD16A0B4EA00B0F528 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD801BFC16A0B4EA00B0F528 /* UIKit.framework */; };
 		DD801BFF16A0B4EA00B0F528 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD801BFE16A0B4EA00B0F528 /* Foundation.framework */; };
 		DD801C0116A0B4EA00B0F528 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD801C0016A0B4EA00B0F528 /* CoreGraphics.framework */; };
@@ -57,6 +58,7 @@
 		DD801C3116A0B58F00B0F528 /* HFRCredentialsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HFRCredentialsStore.h; sourceTree = "<group>"; };
 		DD801C3216A0B58F00B0F528 /* HFRCredentialsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFRCredentialsStore.m; sourceTree = "<group>"; };
 		DD801C3416A0BAC200B0F528 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		DD9C0ED416A20A8600E70DF1 /* CredentialsStore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CredentialsStore.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD4FB38D16A2255700829115 /* Security.framework in Frameworks */,
 				DD801C1B16A0B4EA00B0F528 /* SenTestingKit.framework in Frameworks */,
 				DD801C1C16A0B4EA00B0F528 /* UIKit.framework in Frameworks */,
 				DD801C1D16A0B4EA00B0F528 /* Foundation.framework in Frameworks */,
@@ -118,6 +121,7 @@
 		DD801C0216A0B4EA00B0F528 /* CredentialsStore */ = {
 			isa = PBXGroup;
 			children = (
+				DD9C0ED416A20A8600E70DF1 /* CredentialsStore.entitlements */,
 				DD801C0B16A0B4EA00B0F528 /* HFRAppDelegate.h */,
 				DD801C0C16A0B4EA00B0F528 /* HFRAppDelegate.m */,
 				DD801C0316A0B4EA00B0F528 /* Supporting Files */,
@@ -374,6 +378,7 @@
 		DD801C2C16A0B4EA00B0F528 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = CredentialsStore/CredentialsStore.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CredentialsStore/CredentialsStore-Prefix.pch";
 				INFOPLIST_FILE = "CredentialsStore/CredentialsStore-Info.plist";
@@ -386,6 +391,7 @@
 		DD801C2D16A0B4EA00B0F528 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = CredentialsStore/CredentialsStore.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CredentialsStore/CredentialsStore-Prefix.pch";
 				INFOPLIST_FILE = "CredentialsStore/CredentialsStore-Info.plist";
@@ -399,6 +405,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CredentialsStore.app/CredentialsStore";
+				CODE_SIGN_ENTITLEMENTS = ../CredentialsStore/CredentialsStore.entitlements;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
@@ -416,6 +423,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CredentialsStore.app/CredentialsStore";
+				CODE_SIGN_ENTITLEMENTS = ../CredentialsStore/CredentialsStore.entitlements;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
@@ -448,6 +456,7 @@
 				DD801C2D16A0B4EA00B0F528 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DD801C2E16A0B4EA00B0F528 /* Build configuration list for PBXNativeTarget "CredentialsStoreTests" */ = {
 			isa = XCConfigurationList;
@@ -456,6 +465,7 @@
 				DD801C3016A0B4EA00B0F528 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
