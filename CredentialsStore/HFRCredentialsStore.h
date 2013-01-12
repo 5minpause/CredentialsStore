@@ -11,9 +11,13 @@
 @interface HFRCredentialsStore : NSObject
 
 // Save credentials
-+ (void)savePassword:(NSString *)password withUsername:(NSString *)username forProvider:(NSString *)provider;
++ (BOOL)savePassword:(NSString *)password withUsername:(NSString *)username forProvider:(NSString *)provider;
 
 // Retrieve credentials
 + (NSArray *)listAllProviders;
 + (NSString *)getPasswordForUsername:(NSString *)username atProvider:(NSString *)provider;
++ (NSDictionary *)credentialsForProvider:(NSString *)provider;
+
+// Delete
++ (BOOL)deleteEntryForProvider:(NSString *)provider;
 @end
