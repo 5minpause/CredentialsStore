@@ -36,20 +36,20 @@ static NSString *kHFRCredentialsStoreTestsPassword = @"HFRCredentialsStoreTestPa
 
 - (void)cleanCredentialsStore
 {
-  NSArray *providers = [HFRCredentialsStore listAllProviders];
+  NSArray *providers = [HFRCredentialsStore.sharedInstance listAllProviders];
   [providers enumerateObjectsUsingBlock:^(NSString *provider, NSUInteger idx, BOOL *stop) {
-    [HFRCredentialsStore deleteEntryForProvider:provider];
+    [HFRCredentialsStore.sharedInstance deleteEntryForProvider:provider];
   }];
 }
 
 - (void)saveTwoEntries
 {
-  BOOL result1 = [HFRCredentialsStore savePassword:kHFRCredentialsStoreTestsPassword
-                                      withUsername:kHFRCredentialsStoreTestsUsername
-                                       forProvider:kHFRCredentialsStoreTestsProvider];
-  BOOL result2 = [HFRCredentialsStore savePassword:@"secondPassword"
-                                      withUsername:@"secondUsername"
-                                       forProvider:@"secondProvider"];
+  BOOL result1 = [HFRCredentialsStore.sharedInstance savePassword:kHFRCredentialsStoreTestsPassword
+                                                     withUsername:kHFRCredentialsStoreTestsUsername
+                                                      forProvider:kHFRCredentialsStoreTestsProvider];
+  BOOL result2 = [HFRCredentialsStore.sharedInstance savePassword:@"secondPassword"
+                                                     withUsername:@"secondUsername"
+                                                      forProvider:@"secondProvider"];
 
   STAssertTrue(result1, @"First Save successful");
   STAssertTrue(result2, @"Second Save successful");
@@ -59,16 +59,17 @@ static NSString *kHFRCredentialsStoreTestsPassword = @"HFRCredentialsStoreTestPa
 
 - (void)testDeleteProviders
 {
-  [HFRCredentialsStore savePassword:kHFRCredentialsStoreTestsPassword
-                       withUsername:kHFRCredentialsStoreTestsUsername
-                        forProvider:kHFRCredentialsStoreTestsProvider];
+  [HFRCredentialsStore.sharedInstance savePassword:kHFRCredentialsStoreTestsPassword
+                                      withUsername:kHFRCredentialsStoreTestsUsername
+                                       forProvider:kHFRCredentialsStoreTestsProvider];
 
-  NSString *savedPassword = [HFRCredentialsStore getPasswordForUsername:kHFRCredentialsStoreTestsUsername atProvider:kHFRCredentialsStoreTestsProvider];
+  NSString *savedPassword = [HFRCredentialsStore.sharedInstance getPasswordForUsername:kHFRCredentialsStoreTestsUsername
+                                                                            atProvider:kHFRCredentialsStoreTestsProvider];
 
   STAssertEqualObjects(kHFRCredentialsStoreTestsPassword, savedPassword, @"Saved password matches retrieved password.");
 
-  [HFRCredentialsStore deleteEntryForProvider:kHFRCredentialsStoreTestsProvider];
-  NSDictionary *result = [HFRCredentialsStore credentialsForProvider:kHFRCredentialsStoreTestsProvider];
+  [HFRCredentialsStore.sharedInstance deleteEntryForProvider:kHFRCredentialsStoreTestsProvider];
+  NSDictionary *result = [HFRCredentialsStore.sharedInstance credentialsForProvider:kHFRCredentialsStoreTestsProvider];
   STAssertEqualObjects(@{}, result, @"Result is empty after provider was deleted.");
 }
 
@@ -77,7 +78,7 @@ static NSString *kHFRCredentialsStoreTestsPassword = @"HFRCredentialsStoreTestPa
   [self cleanCredentialsStore];
   [self saveTwoEntries];
 //
-  NSArray *providers = [HFRCredentialsStore listAllProviders];
+  NSArray *providers = [HFRCredentialsStore.sharedInstance listAllProviders];
   NSArray *compareProviders = @[kHFRCredentialsStoreTestsProvider, @"secondProvider"];
   STAssertEqualObjects(providers, compareProviders, @"List of all providers is accurate.");
 }
@@ -87,19 +88,37 @@ static NSString *kHFRCredentialsStoreTestsPassword = @"HFRCredentialsStoreTestPa
   [self cleanCredentialsStore];
   [self saveTwoEntries];
 
-  NSString *savedPassword = [HFRCredentialsStore getPasswordForUsername:kHFRCredentialsStoreTestsUsername atProvider:kHFRCredentialsStoreTestsProvider];
+  NSString *savedPassword = [HFRCredentialsStore.sharedInstance getPasswordForUsername:kHFRCredentialsStoreTestsUsername
+                                                                            atProvider:kHFRCredentialsStoreTestsProvider];
 
   STAssertEqualObjects(kHFRCredentialsStoreTestsPassword, savedPassword, @"Saved password matches retrieved password.");
+}
+
+- (void)testUpdatingPassword
+{
+  [self cleanCredentialsStore];
+  [HFRCredentialsStore.sharedInstance savePassword:kHFRCredentialsStoreTestsPassword
+                                      withUsername:kHFRCredentialsStoreTestsUsername
+                                       forProvider:kHFRCredentialsStoreTestsProvider];
+
+  [HFRCredentialsStore.sharedInstance savePassword:@"newPassword"
+                                      withUsername:kHFRCredentialsStoreTestsUsername
+                                       forProvider:kHFRCredentialsStoreTestsProvider];
+
+  NSString *savedPassword = [HFRCredentialsStore.sharedInstance getPasswordForUsername:kHFRCredentialsStoreTestsUsername
+                                                                            atProvider:kHFRCredentialsStoreTestsProvider];
+
+  STAssertEqualObjects(@"newPassword", savedPassword, @"Retrieved password matches updated password.");
 }
 
 - (void)testFetchCredentialsForProvider
 {
   [self cleanCredentialsStore];
-  [HFRCredentialsStore savePassword:kHFRCredentialsStoreTestsPassword
-                       withUsername:kHFRCredentialsStoreTestsUsername
-                        forProvider:kHFRCredentialsStoreTestsProvider];
+  [HFRCredentialsStore.sharedInstance savePassword:kHFRCredentialsStoreTestsPassword
+                                      withUsername:kHFRCredentialsStoreTestsUsername
+                                       forProvider:kHFRCredentialsStoreTestsProvider];
 
-  NSDictionary *resultsDic = [HFRCredentialsStore credentialsForProvider:kHFRCredentialsStoreTestsProvider];
+  NSDictionary *resultsDic = [HFRCredentialsStore.sharedInstance credentialsForProvider:kHFRCredentialsStoreTestsProvider];
   NSString *username = [resultsDic valueForKey:@"username"];
   NSString *password = [resultsDic valueForKey:@"password"];
   STAssertEqualObjects(username, kHFRCredentialsStoreTestsUsername, @"Usernames match.");
@@ -109,12 +128,12 @@ static NSString *kHFRCredentialsStoreTestsPassword = @"HFRCredentialsStoreTestPa
 - (void)testProviderCannotBeUsedTwice
 {
   [self cleanCredentialsStore];
-  BOOL result1 = [HFRCredentialsStore savePassword:kHFRCredentialsStoreTestsPassword
-                       withUsername:kHFRCredentialsStoreTestsUsername
-                        forProvider:kHFRCredentialsStoreTestsProvider];
-  BOOL result2 = [HFRCredentialsStore savePassword:@"Another Password"
-                       withUsername:@"Another Username"
-                        forProvider:kHFRCredentialsStoreTestsProvider];
+  BOOL result1 = [HFRCredentialsStore.sharedInstance savePassword:kHFRCredentialsStoreTestsPassword
+                                                     withUsername:kHFRCredentialsStoreTestsUsername
+                                                      forProvider:kHFRCredentialsStoreTestsProvider];
+  BOOL result2 = [HFRCredentialsStore.sharedInstance savePassword:@"Another Password"
+                                                     withUsername:@"Another Username"
+                                                      forProvider:kHFRCredentialsStoreTestsProvider];
 
   STAssertTrue(result1, @"First Save successful");
   STAssertFalse(result2, @"Second Save NOT successful");
@@ -124,23 +143,16 @@ static NSString *kHFRCredentialsStoreTestsPassword = @"HFRCredentialsStoreTestPa
 {
   // Setup
   [self cleanCredentialsStore];
-  [HFRCredentialsStore synchronize];
-  NSUbiquitousKeyValueStore* store = [NSUbiquitousKeyValueStore defaultStore];
-  if (store) {
-    [NSNotificationCenter.defaultCenter addObserverForName:NSUbiquitousKeyValueStoreDidChangeExternallyNotification object:store queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
-      [HFRCredentialsStore synchronize];
-    }];
-  }
 
   // No providers after fresh start
-  NSArray *providers = [HFRCredentialsStore listAllProviders];
+  NSArray *providers = [HFRCredentialsStore.sharedInstance listAllProviders];
   NSArray *compareProviders = @[];
   STAssertEqualObjects(providers, compareProviders, @"No providers present yet.");
 
   // Create entry for a provider and sync to iCloud
-  [HFRCredentialsStore savePassword:kHFRCredentialsStoreTestsPassword
-                       withUsername:kHFRCredentialsStoreTestsUsername
-                        forProvider:kHFRCredentialsStoreTestsProvider];
+  [HFRCredentialsStore.sharedInstance savePassword:kHFRCredentialsStoreTestsPassword
+                                      withUsername:kHFRCredentialsStoreTestsUsername
+                                       forProvider:kHFRCredentialsStoreTestsProvider];
 
   // Manually deleting entry from HFRCredentialsStore w/o sync to iCloud
   NSMutableDictionary *query = [@{(__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
@@ -150,13 +162,13 @@ static NSString *kHFRCredentialsStoreTestsPassword = @"HFRCredentialsStoreTestPa
   SecItemDelete((__bridge CFDictionaryRef)query);
 
   // Make sure deletion went through
-  NSArray *providersAfterDelete = [HFRCredentialsStore listAllProviders];
+  NSArray *providersAfterDelete = [HFRCredentialsStore.sharedInstance listAllProviders];
   NSArray *compareProvidersAfterDelete = @[];
   STAssertEqualObjects(providersAfterDelete, compareProvidersAfterDelete, @"No providers present anymore.");
 
   // Sync with iCloud and populate HFRCredentialStore again
-  [HFRCredentialsStore synchronize];
-  NSArray *providersAfterSync = [HFRCredentialsStore listAllProviders];
+  [HFRCredentialsStore.sharedInstance synchronizeAllEntries];
+  NSArray *providersAfterSync = [HFRCredentialsStore.sharedInstance listAllProviders];
   NSArray *compareProvidersAfterSync = @[kHFRCredentialsStoreTestsProvider];
   STAssertEqualObjects(providersAfterSync, compareProvidersAfterSync, @"Providers present again.");
 }

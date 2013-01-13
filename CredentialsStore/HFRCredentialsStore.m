@@ -9,35 +9,81 @@
 #import "HFRCredentialsStore.h"
 #import <Security/Security.h>
 @interface HFRCredentialsStore ()
-+ (BOOL)isProviderAlreadyPresent:(NSString *)provider;
+- (BOOL)isProviderAlreadyPresent:(NSString *)provider;
 
 // iCloud
-+ (void)updateKeysFromiCloud:(NSArray *)keysArray;
-+ (void)sendDataToiCloud:(NSDictionary *)dictionary forKey:(NSString *)key;
+- (void)updateKeysFromiCloud:(NSArray *)keysArray;
+- (void)sendDataToiCloud:(NSDictionary *)dictionary forKey:(NSString *)key;
 @end
 
 @implementation HFRCredentialsStore
 
 #pragma mark - Helper
-+ (NSMutableDictionary *)basicDictionary
+- (NSMutableDictionary *)basicDictionary
 {
   NSMutableDictionary *values = [@{(__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
                                  (__bridge id)kSecAttrAccessible : (__bridge id)kSecAttrAccessibleWhenUnlocked} mutableCopy];
   return values;
 }
 
-+ (NSMutableDictionary *)newSearchDictionaryWithUsername:(NSString *)username forProvider:(NSString *)provider {
+- (NSMutableDictionary *)newSearchDictionaryWithUsername:(NSString *)username forProvider:(NSString *)provider {
   NSMutableDictionary *values = [self basicDictionary];
   [values setObject:[username dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrAccount];
   [values setObject:[provider dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrService];
   return values;
 }
 
+#pragma mark - Instantiation
++ (id)sharedInstance
+{
+  static dispatch_once_t once;
+  static id sharedInstance;
+  dispatch_once(&once, ^{
+    sharedInstance = [[self alloc] init];
+
+    // Register for key-value notifications from iCloud
+    NSUbiquitousKeyValueStore* store = [NSUbiquitousKeyValueStore defaultStore];
+    if (store) {
+      [NSNotificationCenter.defaultCenter addObserverForName:NSUbiquitousKeyValueStoreDidChangeExternallyNotification
+                                                      object:store
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *notification) {
+
+        NSDictionary *userInfo = [notification userInfo];
+        NSNumber *reason = [userInfo objectForKey:NSUbiquitousKeyValueStoreChangeReasonKey];
+
+        if (reason) {
+          NSInteger reasonValue = [reason integerValue];
+
+          if ((reasonValue == NSUbiquitousKeyValueStoreServerChange) ||
+              (reasonValue == NSUbiquitousKeyValueStoreInitialSyncChange)) {
+
+            NSArray *keys = [userInfo objectForKey:NSUbiquitousKeyValueStoreChangedKeysKey];
+
+            [keys enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
+              NSDictionary *credentialsDic = [store valueForKey:key];
+              [sharedInstance savePassword:[credentialsDic valueForKey:@"password"] withUsername:[credentialsDic valueForKey:@"username"] forProvider:key];
+            }];
+          }
+        }
+      }];
+    }
+  });
+  return sharedInstance;
+}
+
+- (void)dealloc
+{
+  NSUbiquitousKeyValueStore* store = [NSUbiquitousKeyValueStore defaultStore];
+  [NSNotificationCenter.defaultCenter removeObserver:self name:NSUbiquitousKeyValueStoreDidChangeExternallyNotification object:store];
+}
+
 #pragma mark - Saving
-+ (BOOL)savePassword:(NSString *)password withUsername:(NSString *)username forProvider:(NSString *)provider;
+- (BOOL)savePassword:(NSString *)password withUsername:(NSString *)username forProvider:(NSString *)provider;
 {
 
-  if ([self isProviderAlreadyPresent:provider]) {
+  // Is provider already present for another username: don't update credentials. 
+  if ([self isProviderAlreadyPresent:provider] && [[self getPasswordForUsername:username atProvider:provider] isEqualToString:@""]) {
     return NO;
   } else {
     NSMutableDictionary *values = [self newSearchDictionaryWithUsername:username forProvider:provider];
@@ -59,13 +105,15 @@
     }
 
     // Syncing to iCloud
-    [self sendDataToiCloud:@{@"username" : username, @"password" : password} forKey:provider];
+    [self sendDataToiCloud:@{@"username" : [username dataUsingEncoding:NSUTF8StringEncoding],
+                             @"password" : [password dataUsingEncoding:NSUTF8StringEncoding]}
+                    forKey:provider];
     return YES;
   }
 }
 
 #pragma mark - Retrieving
-+ (NSArray *)listAllProviders;
+- (NSArray *)listAllProviders;
 {
 
   NSMutableDictionary *query = [self basicDictionary];
@@ -97,7 +145,7 @@
   return returnArray;
 }
 
-+ (BOOL)isProviderAlreadyPresent:(NSString *)provider
+- (BOOL)isProviderAlreadyPresent:(NSString *)provider
 {
   NSMutableDictionary *query = [self basicDictionary];
   [query setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
@@ -119,7 +167,7 @@
   }
 }
 
-+ (NSString *)getPasswordForUsername:(NSString *)username atProvider:(NSString *)provider;
+- (NSString *)getPasswordForUsername:(NSString *)username atProvider:(NSString *)provider;
 {
   OSStatus status = NULL;
   NSMutableDictionary *query = [self basicDictionary];
@@ -147,7 +195,7 @@
   }
 }
 
-+ (NSDictionary *)credentialsForProvider:(NSString *)provider;
+- (NSDictionary *)credentialsForProvider:(NSString *)provider;
 {
   NSMutableDictionary *query = [self basicDictionary];
   [query setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
@@ -180,7 +228,7 @@
   }
 }
 #pragma mark - Deleting
-+ (BOOL)deleteEntryForProvider:(NSString *)provider
+- (BOOL)deleteEntryForProvider:(NSString *)provider
 {
   if ([self isProviderAlreadyPresent:provider]) {
     NSMutableDictionary *query = [self basicDictionary];
@@ -200,16 +248,29 @@
 }
 
 #pragma mark - iCloud
-+ (void)updateKeysFromiCloud:(NSArray *)keysArray;
+- (void)updateKeysFromiCloud:(NSArray *)keysArray;
 {
   NSUbiquitousKeyValueStore* store = [NSUbiquitousKeyValueStore defaultStore];
+  NSDictionary *storeDictionary = [store dictionaryRepresentation];
+
   [keysArray enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
-    NSDictionary *credentialsDic = [store valueForKey:key];
-    [self savePassword:[credentialsDic valueForKey:@"password"] withUsername:[credentialsDic valueForKey:@"username"] forProvider:key];
+    NSDictionary *credentialsDic = [storeDictionary valueForKey:key];
+
+    NSData *passwordData = [credentialsDic valueForKey:@"password"];
+    NSString *password = [[NSString alloc] initWithBytes:[passwordData bytes]
+                                                  length:[passwordData length]
+                                                encoding:NSUTF8StringEncoding];
+
+    NSData *usernameData = [credentialsDic valueForKey:@"username"];
+    NSString *username = [[NSString alloc] initWithBytes:[usernameData bytes]
+                                                  length:[usernameData length]
+                                                encoding:NSUTF8StringEncoding];
+
+    [self savePassword:password withUsername:username forProvider:key];
   }];
 }
 
-+ (void)sendDataToiCloud:(NSDictionary *)dictionary forKey:(NSString *)key
+- (void)sendDataToiCloud:(NSDictionary *)dictionary forKey:(NSString *)key
 {
   NSUbiquitousKeyValueStore *store = [NSUbiquitousKeyValueStore defaultStore];
   if (store) {
@@ -218,7 +279,7 @@
   [store synchronize];
 }
 
-+ (void)synchronize;
+- (void)synchronizeAllEntries
 {
   NSUbiquitousKeyValueStore* store = [NSUbiquitousKeyValueStore defaultStore];
   [store synchronize];
