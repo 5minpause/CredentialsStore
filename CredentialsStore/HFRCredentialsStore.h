@@ -37,6 +37,12 @@
  - If an entry for this provider and username is present, the entry is updated.
  - If an entry for this provider exists with another username, it is not updated.
 
+ @param password The password you want to save.
+
+ @param username The username you want associated with this provider.
+
+ @param provider The provider for which username and password should be saved.
+
  @return If the entry for this provider was saved it returns YES, otherwise it returns NO.
  */
 - (BOOL)savePassword:(NSString *)password withUsername:(NSString *)username forProvider:(NSString *)provider;
@@ -48,25 +54,23 @@
 /** Call this method to get a list of all providers.
 
  The order of the NSArray is not defined.
- 
- @param password The password you want to save.
- 
- @param username The username you want associated with this provider.
- 
- @param provider The provider for which username and password should be saved.
 
  @return Returns an NSArray with all providers as NSString objects.
- */
 
+ @see credentialsForProvider:
+ */
 - (NSArray *)listAllProviders;
 
 /** Use this method the get the password for a provider and username.
 
  If an entry exists for this specific provider/username combination the password is returned. Otherwise an empty NSString is returned.
 
+ @param username The username for which the password should be retrieved.
+
+ @param provider The provider for which the username matches.
+
  @return Returns an NSString. The contents depends on the provider/username combination.
  
- @see credentialsForProvider:
  */
 - (NSString *)getPasswordForUsername:(NSString *)username atProvider:(NSString *)provider;
 
@@ -74,10 +78,8 @@
 
  Use this method if you want to get the credentials for a provider. The return value is an NSDictionary 
  where the username is under the key @"username" and the password under the key @"password".
- 
- @param username The username for which the password should be retrieved.
- 
- @param provider The provider for which the username matches.
+
+ @param provider The provider for which to return the corresponding credentials.
 
  @return Returns an NSDictionary with username and password as key/value pairs.
  
@@ -93,7 +95,7 @@
 
  Given a valid provider the entry is deleted. If the entry wasn't found or couldn't be deleted
  the return value will be NO. Otherwise it will be YES.
- 
+
  @param provider The provider for which to delete the corresponding entry.
 
  @return A BOOL value describing the success of the deletion.
