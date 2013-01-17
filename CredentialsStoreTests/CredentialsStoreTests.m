@@ -167,7 +167,9 @@ static NSString *kHFRCredentialsStoreTestsPassword = @"HFRCredentialsStoreTestPa
   STAssertEqualObjects(providersAfterDelete, compareProvidersAfterDelete, @"No providers present anymore.");
 
   // Sync with iCloud and populate HFRCredentialStore again
-  [HFRCredentialsStore.sharedInstance synchronizeAllEntries];
+  dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+    [HFRCredentialsStore.sharedInstance synchronizeAllEntries];
+  });
   NSArray *providersAfterSync = [HFRCredentialsStore.sharedInstance listAllProviders];
   NSArray *compareProvidersAfterSync = @[kHFRCredentialsStoreTestsProvider];
   STAssertEqualObjects(providersAfterSync, compareProvidersAfterSync, @"Providers present again.");

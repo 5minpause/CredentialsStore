@@ -93,7 +93,7 @@
       SecItemDelete((__bridge CFDictionaryRef)values);
     }
 
-    OSStatus status = NULL;
+    OSStatus status = noErr;
 
     [values setValue:[password dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecValueData];
 
@@ -121,7 +121,7 @@
   [query setObject:(__bridge id)kCFBooleanTrue forKey:(__bridge id)kSecReturnAttributes];
 
   CFArrayRef resAr = NULL;
-  OSStatus status = NULL;
+  OSStatus status = noErr;
   __block NSMutableArray *returnArray = [@[] mutableCopy];
   status = SecItemCopyMatching((__bridge CFMutableDictionaryRef)query, (CFTypeRef *)&resAr);
   
@@ -153,7 +153,7 @@
   [query setObject:[provider dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrService];
 
   CFDataRef results = NULL;
-  OSStatus status = NULL;
+  OSStatus status = noErr;
   status = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef *)&results);
 
   if (status == noErr) {
@@ -169,7 +169,7 @@
 
 - (NSString *)getPasswordForUsername:(NSString *)username atProvider:(NSString *)provider;
 {
-  OSStatus status = NULL;
+  OSStatus status = noErr;
   NSMutableDictionary *query = [self basicDictionary];
   [query setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
   [query setObject:(__bridge id)kCFBooleanTrue forKey:(__bridge id)kSecReturnData];
@@ -203,7 +203,7 @@
   [query setObject:[provider dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecAttrService];
 
   CFDictionaryRef resDic = NULL;
-  OSStatus status = NULL;
+  OSStatus status = noErr;
   __block NSMutableDictionary *returnDictionary = [@{} mutableCopy];
   status = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef *)&resDic);
 
